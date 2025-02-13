@@ -1,0 +1,68 @@
+import fetch from "node-fetch";
+import axios from "axios";
+import dotenv from "dotenv";
+
+dotenv.config();  // Load the environment variables
+
+async function getGoldPrices() {
+    try {
+        const response = await fetch("https://call1.tgju.org/ajax.json");
+        const data = await response.json();
+
+        // Check the structure of the API response
+        console.log(data);
+
+        // Extract the prices for different coins
+        if (data && data.current) {
+            const baharAzadiPrice = data.current.sekeb?.p / 10;
+            const emamiPrice = data.current.sekee?.p / 10;
+            const robSekePrice = data.current.rob?.p / 10;
+
+            if (baharAzadiPrice) {
+                console.log(`Latest Bahar Azadi Price: ${baharAzadiPrice.toFixed(0)} Toman`);
+            }
+            if (emamiPrice) {
+                console.log(`Latest Emami Price: ${emamiPrice.toFixed(0)} Toman`);
+            }
+            if (robSekePrice) {
+                console.log(`Latest Rob Seke Price: ${robSekePrice.toFixed(0)} Toman`);
+            }
+
+            // Send the prices to your Telegram bot
+            if (baharAzadiPrice) {
+                await sendMessageToTelegram(`Latest Bahar Azadi Price: ${baharAzadiPrice.toFixed(0)} Toman`);
+            }
+            if (emamiPrice) {
+                await sendMessageToTelegram(`Latest Emami Price: ${emamiPrice.toFixed(0)} Toman`);
+            }
+            if (robSekePrice) {
+                await sendMessageToTelegram(`Latest Rob Seke Price: ${robSekePrice.toFixed(0)} Toman`);
+            }
+        } else {
+            console.log("Gold price data not found!");
+        }
+    } catch (error) {
+        console.error("Error fetching gold prices:", error);
+    }
+}
+
+async function sendMessageToTelegram(message) {
+    const botToken = process.env.TELEGRAM_BOT_TOKEN;  // Access bot token from environment variable
+    const chatId = process.env.TELEGRAM_CHAT_ID;      // Access chat ID from environment variable
+
+    const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+    const params = {
+        chat_id: chatId,
+        text: message
+    };
+
+    try {
+        await axios.post(url, params);
+        console.log("Message sent to Telegram!");
+    } catch (error) {
+        console.error("Error sending message to Telegram:", error);
+    }
+}
+
+// Run the function
+getGoldPrices();
