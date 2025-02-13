@@ -4,7 +4,7 @@ on:
   schedule:
     # Run once a day at 5:40 PM Iran time (IRST, UTC +3:30)
     - cron: '10 14 * * *'  # This is 5:40 PM IRST (UTC+3:30)
-
+  workflow_dispatch:
 jobs:
   fetch-nim-price:
     runs-on: ubuntu-latest
