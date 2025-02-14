@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import axios from "axios";
-import moment from "moment-jalaali"; // Import moment-jalaali
+const moment = require("moment-jalaali");
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;  // Access from GitHub Secrets
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;      // Access from GitHub Secrets
