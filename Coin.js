@@ -11,7 +11,7 @@ async function getCommodityPrices() {
         const dateData = await dateResponse.json();
         
         // Get the Farsi date directly from the API response
-        const farsiDate = `📅 تاریخ: ${dateData.data.date.official.fa.split('-').reverse().join(' ')}`;
+        const farsiDate = `📅 تاریخ: ${dateData.date.full.official.fa.split('-').reverse().join(' ')}`;
 
         const response = await fetch("https://call1.tgju.org/ajax.json");
         const data = await response.json();
