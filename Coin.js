@@ -58,7 +58,7 @@ const escapedMessage = message.replace(/([_*[\]()~`>#+\-=|{}.!$%^&:;,.?¿])/g, '
     const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
     const params = {
         chat_id: chatId,
-        text: message
+        text: message,
         parse_mode: "MarkdownV2"
     };
 
