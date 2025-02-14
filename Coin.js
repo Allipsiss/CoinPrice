@@ -38,19 +38,19 @@ async function getCommodityPrices() {
             };
 
             // Construct the header message with Farsi date and coin prices
-            const headerMessage = `
+            let headerMessage = `
             📅 *تاریخ امروز:* ${farsiDate2Formatted}\n\n
             🏅 *سکه امامی:* ${emamiPrice} تومان 💵\n
             🥇 *بهار آزادی:* ${baharAzadiPrice} تومان 💵\n
             🥈 *نیم سکه:* ${nimSekePrice} تومان 💵\n
-            🥉 *ربع: سکه* ${robSekePrice} تومان 💵\n
+            🥉 *ربع سکه:* ${robSekePrice} تومان 💵\n
             `;
 
-            // Escape special characters for MarkdownV2
-            const escapedMessage = headerMessage.replace(/([_*[\]()~`>#+\-=|{}.!$%^&:;,.?¿])/g, '\\$1');
+            // Escape special characters for MarkdownV2 to ensure proper formatting
+            headerMessage = headerMessage.replace(/([_*[\]()~`>#+\-=|{}.!$%^&:;,.?¿])/g, '\\$1');
 
             // Send the combined message to Telegram
-            await sendMessageToTelegram(escapedMessage);
+            await sendMessageToTelegram(headerMessage);
         } else {
             console.log("Price data not found!");
         }
