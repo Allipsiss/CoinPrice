@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import axios from "axios";
 import { format } from 'date-fns-jalali';
 
-const farsiDate2 = format(new Date(), 'yyyy/MM/dd');
+const farsiDate2 = format(new Date(), 'dd MMMM yyyy', { locale: 'fa' });
 console.log("Farsi Date:", farsiDate2);  // Log the Farsi date correctly
 
 async function getCommodityPrices() {
