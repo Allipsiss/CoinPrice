@@ -1,6 +1,9 @@
 import fetch from "node-fetch";
 import axios from "axios";
 
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;  // Access from GitHub Secrets
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;      // Access from GitHub Secrets
+
 async function getCommodityPrices() {
     try {
         const response = await fetch("https://call1.tgju.org/ajax.json");
@@ -48,11 +51,8 @@ async function getCommodityPrices() {
 }
 
 async function sendMessageToTelegram(message) {
-    const botToken = process.env.TELEGRAM_BOT_TOKEN;  // Replace with your actual bot token
-    const chatId = process.env.TELEGRAM_CHAT_ID;      // Replace with your actual chat ID
-
-    console.log("Bot Token Length:", botToken ? botToken.length : "NOT SET");
-    console.log("Chat ID:", chatId ? "SET" : "NOT SET");
+    const botToken = TELEGRAM_BOT_TOKEN;  // Replace with your actual bot token
+    const chatId = TELEGRAM_CHAT_ID;      // Replace with your actual chat ID
 
     const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
     const params = {
