@@ -1,0 +1,30 @@
+name: Fetch Nim Price and Send to Telegram
+
+on:
+  schedule:
+    # Run once a day at 5:40 PM Iran time (IRST, UTC +3:30)
+    - cron: '10 14 * * *'  # This is 5:40 PM IRST (UTC+3:30)
+  workflow_dispatch:
+jobs:
+  fetch-nim-price:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: |
+        npm install
+
+    - name: Run Nim price script
+      env:
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}  # GitHub secret
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}      # GitHub secret
+      run: |
+        node Coin
