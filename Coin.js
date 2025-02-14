@@ -3,11 +3,17 @@ import axios from "axios";
 
 async function getCommodityPrices() {
     try {
+        // Fetch commodity prices from the first API
         const response = await fetch("https://call1.tgju.org/ajax.json");
         const data = await response.json();
 
-        // Extract the Farsi date from the API response
+        // Extract the Farsi date from the first API (commodity prices)
         const farsiDate = data.current.retail_gerami?.t || "Date not available";  // Use the date from API or a fallback message
+
+        // Fetch current Farsi date from the second API (Keybit API)
+        const timeResponse = await fetch("https://api.keybit.ir/time/");
+        const timeData = await timeResponse.json();
+        const farsiCurrentDate = timeData.date.full.official.fa || "Date not available";  // Extract the Farsi date
 
         // Extract prices for different commodities and divide by 10,000
         if (data && data.current) {
@@ -29,8 +35,8 @@ async function getCommodityPrices() {
 
             let priceMessages = [];
 
-            // Add the Farsi date and Farsi names of the coins at the beginning of the message
-            const headerMessage = `تاریخ: ${farsiDate}\n\n` +
+            // Add the Farsi date from the Keybit API and the Farsi names of the coins at the beginning of the message
+            const headerMessage = `تاریخ امروز: ${farsiCurrentDate}\n\n` +
                                   `${farsiCoinNames.emami}: ${emamiPrice} تومان\n` +
                                   `${farsiCoinNames.baharAzadi}: ${baharAzadiPrice} تومان\n` +
                                   `${farsiCoinNames.nimSeke}: ${nimSekePrice} تومان\n` +
