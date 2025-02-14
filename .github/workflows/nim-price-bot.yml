@@ -27,4 +27,4 @@ jobs:
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}  # GitHub secret
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}      # GitHub secret
       run: |
-        node Coin
+        node Coin.js
