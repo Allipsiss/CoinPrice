@@ -48,8 +48,8 @@ async function getCommodityPrices() {
 }
 
 async function sendMessageToTelegram(message) {
-    const botToken = "7553824585:AAFrfN8FRO03Havu8ERZL-uf6GuDnpgf2n4";  // Replace with your actual bot token
-    const chatId = "1930165330";      // Replace with your actual chat ID
+    const botToken = "TELEGRAM_BOT_TOKEN";  // Replace with your actual bot token
+    const chatId = "TELEGRAM_CHAT_ID";      // Replace with your actual chat ID
 
     const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
     const params = {
