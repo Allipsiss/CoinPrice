@@ -1,5 +1,9 @@
 import fetch from "node-fetch";
 import axios from "axios";
+import { format } from 'date-fns-jalali';
+
+const farsiDate2 = format(new Date(), 'yyyy/MM/dd');
+console.log("Farsi Date:", farsiDate2);  // Log the Farsi date correctly
 
 async function getCommodityPrices() {
     try {
@@ -7,23 +11,15 @@ async function getCommodityPrices() {
         const response = await fetch("https://call1.tgju.org/ajax.json");
         const data = await response.json();
 
-        // Extract the Farsi date from the first API (commodity prices)
-        const farsiDate = data.current.retail_gerami?.t || "Date not available";  // Use the date from API or a fallback message
-
-        // Fetch current Farsi date from the second API (Keybit API)
-        const timeResponse = await fetch("https://api.keybit.ir/time/");
-        const timeData = await timeResponse.json();
-        const farsiCurrentDate = data.date?.full?.official?.iso?.fa || "Date not available";  // Extract the Farsi date
-
         // Extract prices for different commodities and divide by 10,000
         if (data && data.current) {
             // Convert price strings to numbers, divide by 10,000, and format with commas
             const formatNumber = (num) => new Intl.NumberFormat().format(num);
 
-            const emamiPrice = formatNumber(parseInt(data.current.sekee?.p.replace(/,/g, "")) / 10000);
-            const baharAzadiPrice = formatNumber(parseInt(data.current.sekeb?.p.replace(/,/g, "")) / 10000);
-            const nimSekePrice = formatNumber(parseInt(data.current.nim?.p.replace(/,/g, "")) / 10000);
-            const robSekePrice = formatNumber(parseInt(data.current.rob?.p.replace(/,/g, "")) / 10000);
+            const emamiPrice = data.current.sekee?.p ? formatNumber(parseInt(data.current.sekee.p.replace(/,/g, "")) / 10000) : 'N/A';
+            const baharAzadiPrice = data.current.sekeb?.p ? formatNumber(parseInt(data.current.sekeb.p.replace(/,/g, "")) / 10000) : 'N/A';
+            const nimSekePrice = data.current.nim?.p ? formatNumber(parseInt(data.current.nim.p.replace(/,/g, "")) / 10000) : 'N/A';
+            const robSekePrice = data.current.rob?.p ? formatNumber(parseInt(data.current.rob.p.replace(/,/g, "")) / 10000) : 'N/A';
 
             // Farsi names for the coins
             const farsiCoinNames = {
@@ -33,10 +29,8 @@ async function getCommodityPrices() {
                 robSeke: "🥉 ربع"
             };
 
-            let priceMessages = [];
-
-            // Add the Farsi date from the Keybit API and the Farsi names of the coins at the beginning of the message
-            const headerMessage = `تاریخ امروز: ${farsiCurrentDate}\n\n` +
+            // Construct the header message with Farsi date and coin prices
+            const headerMessage = `تاریخ امروز: ${farsiDate2}\n\n` +
                                   `${farsiCoinNames.emami}: ${emamiPrice} تومان\n` +
                                   `${farsiCoinNames.baharAzadi}: ${baharAzadiPrice} تومان\n` +
                                   `${farsiCoinNames.nimSeke}: ${nimSekePrice} تومان\n` +
@@ -44,7 +38,6 @@ async function getCommodityPrices() {
 
             // Send the combined message to Telegram
             await sendMessageToTelegram(headerMessage);
-
         } else {
             console.log("Price data not found!");
         }
