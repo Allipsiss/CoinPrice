@@ -1,20 +1,15 @@
 import fetch from "node-fetch";
 import axios from "axios";
 
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;  // Access from GitHub Secrets
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;      // Access from GitHub Secrets
+
 
 async function getCommodityPrices() {
     try {
-        // Fetch the current date from the API
-        const dateResponse = await fetch("https://api.keybit.ir/time/");
-        const dateData = await dateResponse.json();
-        
-        // Get the Farsi date directly from the API response
-        const farsiDate = `📅 تاریخ: ${dateData.date.full.official.fa.split('-').reverse().join(' ')}`;
-
         const response = await fetch("https://call1.tgju.org/ajax.json");
         const data = await response.json();
+
+        // Extract the Farsi date from the API response
+        const farsiDate = data.current.retail_gerami?.t || "Date not available";  // Use the date from API or a fallback message
 
         // Extract prices for different commodities and divide by 10,000
         if (data && data.current) {
@@ -37,7 +32,7 @@ async function getCommodityPrices() {
             let priceMessages = [];
 
             // Add the Farsi date and Farsi names of the coins at the beginning of the message
-            const headerMessage = `${farsiDate}\n\n` +
+            const headerMessage = `📅 تاریخ: ${farsiDate}\n\n` +
                                   `${farsiCoinNames.emami}: ${emamiPrice} تومان\n` +
                                   `${farsiCoinNames.baharAzadi}: ${baharAzadiPrice} تومان\n` +
                                   `${farsiCoinNames.nimSeke}: ${nimSekePrice} تومان\n` +
