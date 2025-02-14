@@ -52,6 +52,9 @@ async function sendMessageToTelegram(message) {
     const botToken = process.env.TELEGRAM_BOT_TOKEN;  // Replace with your actual bot token
     const chatId = process.env.TELEGRAM_CHAT_ID;      // Replace with your actual chat ID
 
+// Escape the text for MarkdownV2
+const escapedMessage = message.replace(/([_*[\]()~`>#+\-=|{}.!$%^&:;,.?¿])/g, '\\$1');
+
     const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
     const params = {
         chat_id: chatId,
