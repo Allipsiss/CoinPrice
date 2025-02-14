@@ -1,7 +1,8 @@
 import fetch from "node-fetch";
 import axios from "axios";
 
-
+const botToken = process.env.TELEGRAM_BOT_TOKEN;  // Access the secret from the environment
+const chatId = process.env.TELEGRAM_CHAT_ID;      // Access the secret from the environment
 
 async function getCommodityPrices() {
     try {
@@ -32,7 +33,7 @@ async function getCommodityPrices() {
             let priceMessages = [];
 
             // Add the Farsi date and Farsi names of the coins at the beginning of the message
-            const headerMessage = `📅 تاریخ: ${farsiDate}\n\n` +
+            const headerMessage = `تاریخ: ${farsiDate}\n\n` +
                                   `${farsiCoinNames.emami}: ${emamiPrice} تومان\n` +
                                   `${farsiCoinNames.baharAzadi}: ${baharAzadiPrice} تومان\n` +
                                   `${farsiCoinNames.nimSeke}: ${nimSekePrice} تومان\n` +
