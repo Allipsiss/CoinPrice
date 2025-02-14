@@ -35,7 +35,7 @@ async function getCommodityPrices() {
             🏅 *سکه امامی:* ${emamiPrice} تومان 💵\n
             🥇 *بهار آزادی:* ${baharAzadiPrice} تومان 💵\n
             🥈 *نیم سکه:* ${nimSekePrice} تومان 💵\n
-            🥉 *ربع: سکه* ${robSekePrice} تومان 💵\n
+            🥉 *ربع سکه:* ${robSekePrice} تومان 💵\n
             `;
 
             // Send the combined message to Telegram
