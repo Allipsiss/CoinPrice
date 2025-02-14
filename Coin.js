@@ -32,10 +32,10 @@ async function getCommodityPrices() {
             // Construct the header message with Farsi date and coin prices
             const headerMessage = `
             *📅 تاریخ امروز:* ${farsiDate2}\n\n
-            *🏅 ${farsiCoinNames.emami}:* ${emamiPrice} تومان 💸\n
-            *🥇 ${farsiCoinNames.baharAzadi}:* ${baharAzadiPrice} تومان 💵\n
-            *🥈 ${farsiCoinNames.nimSeke}:* ${nimSekePrice} تومان 💰\n
-            *🥉 ${farsiCoinNames.robSeke}:* ${robSekePrice} تومان 🪙\n
+            *🏅 سکه امامی:* ${emamiPrice} تومان 💸\n
+            *🥇 بهار آزادی:* ${baharAzadiPrice} تومان 💵\n
+            *🥈 نیم سکه:* ${nimSekePrice} تومان 💰\n
+            *🥉 ربع: سکه* ${robSekePrice} تومان 🪙\n
             `;
 
             // Send the combined message to Telegram
