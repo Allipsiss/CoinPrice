@@ -1,5 +1,6 @@
 import fetch from "node-fetch";
 import axios from "axios";
+import moment from "moment-jalaali"; // Import moment-jalaali
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;  // Access from GitHub Secrets
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;      // Access from GitHub Secrets
@@ -9,10 +10,9 @@ async function getCommodityPrices() {
         const response = await fetch("https://call1.tgju.org/ajax.json");
         const data = await response.json();
 
-        // Extract the Farsi date from the API response
-        const farsiDate = data.current.retail_gerami?.t || "Date not available";  // Use the date from API or a fallback message
+        // Get today's date in Farsi (Jalaali calendar)
+        const farsiDate = moment().format('jYYYY/jMM/jDD'); // This will give the date in the Jalaali format (e.g., 1403/11/25)
 
-        // Extract prices for different commodities and divide by 10,000
         if (data && data.current) {
             // Convert price strings to numbers, divide by 10,000, and format with commas
             const formatNumber = (num) => new Intl.NumberFormat().format(num);
