@@ -13,7 +13,7 @@ async function getCommodityPrices() {
         // Fetch current Farsi date from the second API (Keybit API)
         const timeResponse = await fetch("https://api.keybit.ir/time/");
         const timeData = await timeResponse.json();
-        const farsiCurrentDate = .date.full.official.iso.fa || "Date not available";  // Extract the Farsi date
+        const farsiCurrentDate = ".date.full.official.iso.fa" || "Date not available";  // Extract the Farsi date
 
         // Extract prices for different commodities and divide by 10,000
         if (data && data.current) {
